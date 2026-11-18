@@ -1,0 +1,9 @@
+# Runtime dependencies of the API server (pinned to the tested versions).
+fastapi==0.165.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.3
+# ML (added by person C when ml/ lands; LightGBM needs libgomp1 in the Docker image):
+# scikit-learn
+# lightgbm
+# numpy
+# joblib
