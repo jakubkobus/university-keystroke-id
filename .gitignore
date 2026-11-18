@@ -1,0 +1,11 @@
+*.db
+*.db-wal
+*.db-shm
+.venv/
+__pycache__/
+.pytest_cache/
+ml/model_files/
+raw_data/
+storage/
+backups/
+.env
