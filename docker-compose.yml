@@ -1,0 +1,34 @@
+# Production-style stack: FastAPI app behind Caddy (automatic HTTPS).
+#   cp .env.example .env   # then edit DOMAIN and KEYSTROKEID_ADMIN_KEY
+#   docker compose up -d --build
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      KEYSTROKEID_DB: /app/storage/keystrokeid.db
+    volumes:
+      - storage:/app/storage          # database + backups live here, NOT in the container
+    expose:
+      - "8000"                        # reachable only from Caddy, not from the internet
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data              # issued certificates
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  storage:
+  caddy_data:
+  caddy_config:

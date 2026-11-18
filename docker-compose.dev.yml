@@ -1,0 +1,6 @@
+# Local run without HTTPS: publishes the app directly on http://localhost:8000
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build app
+services:
+  app:
+    ports:
+      - "8000:8000"

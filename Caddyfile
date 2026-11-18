@@ -1,0 +1,19 @@
+# DOMAIN comes from .env. With a real public domain Caddy obtains a Let's Encrypt certificate
+# automatically; with "localhost" it uses a local self-signed one.
+{$DOMAIN:localhost} {
+	encode zstd gzip
+
+	# Samples are ~2 KB; refuse anything much larger before it reaches the app.
+	request_body {
+		max_size 256KB
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		-Server
+	}
+
+	reverse_proxy app:8000
+}
